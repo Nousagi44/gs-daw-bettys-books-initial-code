@@ -1,15 +1,17 @@
 <!doctype html>
 <html>
   <head>
-    <title>Register for <%=shopData.shopName%></title>
-    <link rel="stylesheet"  type="text/css" href="/main.css" />
+    <title>Register for <%= shopData.shopName %></title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
   </head>
   <body>
-    <h1>Register for <%=shopData.shopName%></h1>
+    <h1>Register for <%= shopData.shopName %></h1>
     <form method="POST" action="registered">
-        <p>First name: <input id="first" type="text" name="first" /></p>
-        <p>Last name: <input id="last" type="text" name="last"/></p>
-        <p>Email: <input id="email" type="text" name="email"/></p>
+        <p>Username: <input id="username" type="text" name="username" required /></p>
+        <p>First name: <input id="first" type="text" name="first" required /></p>
+        <p>Last name: <input id="last" type="text" name="last" required /></p>
+        <p>Email: <input id="email" type="email" name="email" required /></p>
+        <p>Password: <input id="password" type="password" name="password" required /></p>
         <input type="submit" value="Register" />
       </form>
   </body>
