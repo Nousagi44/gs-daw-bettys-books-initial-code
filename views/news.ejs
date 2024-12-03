@@ -1,0 +1,223 @@
+<!doctype html>
+<html>
+<head>
+    <title>Latest News - Prepper</title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: darkcyan;
+        }
+
+        .location-form {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        button, .location-form button {
+            background-color: orangered;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        button:hover, .location-form button:hover {
+            background-color: darkorange;
+        }
+
+        .news-section {
+            margin-top: 20px;
+        }
+
+        .news-card {
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .news-card h3 {
+            color: darkblue;
+        }
+
+        .news-card p {
+            font-size: 1em;
+            line-height: 1.6;
+        }
+
+        .news-card a {
+            color: orangered;
+            text-decoration: none;
+        }
+
+        .news-card a:hover {
+            color: darkorange;
+        }
+
+        .source-info {
+            font-style: italic;
+            color: #777;
+            margin-top: 10px;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(sendPosition);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function sendPosition(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            window.location.href = '/data/news?lat=' + latitude + '&lon=' + longitude;
+        }
+    </script>
+</head>
+<body>
+    <%- include('./partials/navbar.ejs') %>
+
+    <div class="container">
+        <h1>Latest News</h1>
+
+        <div class="location-form">
+            <%- include('partials/locationForm', { formAction: '/data/news', city }) %>
+            <p>Or <button onclick="getLocation()"><i class="fas fa-map-marker-alt"></i> Use My Current Location</button></p>
+        </div>
+
+        <% if (!error) { %>
+
+            <% if (globalConflictArticles && globalConflictArticles.length > 0) { %>
+                <div class="news-section">
+                    <h2>Global Conflict News in <%= city %></h2>
+                    <% globalConflictArticles.forEach(function(article) { %>
+                        <div class="news-card">
+                            <h3><a href="<%= article.url %>" target="_blank"><%= article.title %></a></h3>
+                            <p><%= article.body ? article.body.substring(0, 200) + '...' : '' %></p>
+                            <p class="source-info">Source: <%= article.source.title %></p>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } %>
+
+            <% if (disasterNewsArticles && disasterNewsArticles.length > 0) { %>
+                <div class="news-section">
+                    <h2>Disaster News in <%= city %></h2>
+                    <% disasterNewsArticles.forEach(function(article) { %>
+                        <div class="news-card">
+                            <h3><a href="<%= article.url %>" target="_blank"><%= article.title %></a></h3>
+                            <p><%= article.body ? article.body.substring(0, 200) + '...' : '' %></p>
+                            <p class="source-info">Source: <%= article.source.title %></p>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } %>
+
+            <% if (financialRiskArticles && financialRiskArticles.length > 0) { %>
+                <div class="news-section">
+                    <h2>Financial Risk and Indicators in <%= city %></h2>
+                    <% financialRiskArticles.forEach(function(article) { %>
+                        <div class="news-card">
+                            <h3><a href="<%= article.url %>" target="_blank"><%= article.title %></a></h3>
+                            <p><%= article.body ? article.body.substring(0, 200) + '...' : '' %></p>
+                            <p class="source-info">Source: <%= article.source.title %></p>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } %>
+
+            <% if (supplyShortagesArticles && supplyShortagesArticles.length > 0) { %>
+                <div class="news-section">
+                    <h2>Supply Shortages in <%= city %></h2>
+                    <% supplyShortagesArticles.forEach(function(article) { %>
+                        <div class="news-card">
+                            <h3><a href="<%= article.url %>" target="_blank"><%= article.title %></a></h3>
+                            <p><%= article.body ? article.body.substring(0, 200) + '...' : '' %></p>
+                            <p class="source-info">Source: <%= article.source.title %></p>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } %>
+
+            <% if (urbanSurvivalArticles && urbanSurvivalArticles.length > 0) { %>
+                <div class="news-section">
+                    <h2>Urban Survival Articles in <%= city %></h2>
+                    <% urbanSurvivalArticles.forEach(function(article) { %>
+                        <div class="news-card">
+                            <h3><a href="<%= article.url %>" target="_blank"><%= article.title %></a></h3>
+                            <p><%= article.body ? article.body.substring(0, 200) + '...' : '' %></p>
+                            <p class="source-info">Source: <%= article.source.title %></p>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } %>
+
+            <% if (disasterPreparationArticles && disasterPreparationArticles.length > 0) { %>
+                <div class="news-section">
+                    <h2>Disaster and Conflict Preparation in <%= city %></h2>
+                    <% disasterPreparationArticles.forEach(function(article) { %>
+                        <div class="news-card">
+                            <h3><a href="<%= article.url %>" target="_blank"><%= article.title %></a></h3>
+                            <p><%= article.body ? article.body.substring(0, 200) + '...' : '' %></p>
+                            <p class="source-info">Source: <%= article.source.title %></p>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } %>
+
+            <% if (
+                (!globalConflictArticles || globalConflictArticles.length === 0) &&
+                (!disasterNewsArticles || disasterNewsArticles.length === 0) &&
+                (!financialRiskArticles || financialRiskArticles.length === 0) &&
+                (!supplyShortagesArticles || supplyShortagesArticles.length === 0) &&
+                (!urbanSurvivalArticles || urbanSurvivalArticles.length === 0) &&
+                (!disasterPreparationArticles || disasterPreparationArticles.length === 0)
+            ) { %>
+                <p class="error">No news articles found for these topics in your location.</p>
+            <% } %>
+
+        <% } else { %>
+            <p class="error"><%= error %></p>
+        <% } %>
+
+        <div class="back-link">
+            <a href="/dashboard"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

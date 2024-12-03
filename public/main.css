@@ -1,43 +1,87 @@
-h1 {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
-    color: darkcyan;
+/* public/main.css */
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 20px;
 }
 
-h2 {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
-    color: cadetblue;
+h1, h2 {
+  color: darkcyan;
 }
 
-p,li {
-    font-family: Arial, Helvetica, sans-serif;
+.error {
+  color: red;
 }
 
-a:link {
-    color: orangered;
-    text-decoration: none;
-    padding:5px;
-  }
-  
-  /* visited link */
-  a:visited {
-    color: tomato;
-    text-decoration: none;
-    padding:5px;
-  }
-  
-  /* mouse over link */
-  a:hover {
-    color: white;
-    text-decoration: none;
-    background-color: orangered;
-    padding:5px;
-  }
-  
-  /* selected link */
-  a:active {
-    color: blue;
-    text-decoration: none;
-    padding:5px;
-  }
+a {
+  color: orangered;
+  text-decoration: none;
+}
+
+a:hover {
+  color: white;
+  background-color: orangered;
+  padding: 5px;
+}
+
+form div {
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+}
+
+input {
+  padding: 5px;
+  width: 300px;
+}
+/* Navbar Styles */
+.navbar {
+  background-color: #333; /* Dark background for navbar */
+  overflow: hidden; /* Hide anything overflowing */
+  display: flex; /* Align items horizontally */
+  justify-content: space-around; /* Space out links evenly */
+  padding: 10px 0;
+  position: fixed; /* Make the navbar fixed at the top */
+  top: 0; /* Position at the very top */
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Ensure the navbar is above other content */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for better visibility */
+}
+
+.navbar a {
+  color: white; /* White text color for better visibility */
+  text-align: center;
+  padding: 12px 16px; /* Padding for clickable area */
+  text-decoration: none; /* No underline */
+  font-size: 1.1em; /* Slightly larger font for readability */
+  transition: background-color 0.3s ease; /* Smooth background color change */
+}
+
+.navbar a:hover {
+  background-color: #575757; /* Lighter shade on hover */
+  color: #f4f4f4; /* Keep text readable on hover */
+}
+
+.navbar i {
+  margin-right: 8px; /* Space between icon and text */
+}
+
+/* Adjust page content to prevent overlap with the navbar */
+body {
+  margin-top: 60px; /* Create space at the top of the page to accommodate the fixed navbar height */
+  font-family: Arial, sans-serif;
+}
+
+
+body {
+  font-family: Arial, sans-serif; /* Use a consistent font throughout */
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+  text-align: center;
+}

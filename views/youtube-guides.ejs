@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Survival Guides - Prepper</title>
+    <link rel="stylesheet" type="text/css" href="/main.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        /* Add padding to account for the fixed navbar */
+        .content-wrapper {
+            padding-top: 80px;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        .wrapper {
+            width: 95%;
+            margin: auto;
+        }
+
+        .carousel-container {
+            position: relative;
+            margin-bottom: 50px;
+            overflow: hidden;
+        }
+
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: calc(350px * 10);
+        }
+
+        .video-container {
+            min-width: 350px;
+            max-width: 350px;
+            margin-right: 15px;
+            position: relative;
+            padding-bottom: 200px;
+            height: 0;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Navigation Buttons */
+        .arrow__btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: #fff;
+            font-size: 2em;
+            cursor: pointer;
+            z-index: 100;
+            padding: 10px;
+        }
+
+        .arrow__btn.left {
+            left: 0;
+        }
+
+        .arrow__btn.right {
+            right: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('./partials/navbar.ejs') %>
+    
+    <div class="content-wrapper">
+        <h1>YouTube Survival Guides</h1>
+        <div class="wrapper">
+        <!-- Urban Survival Guides -->
+        <div class="guide-section">
+            <h2>Urban Survival Guides</h2>
+            <div class="carousel-container">
+                <button class="arrow__btn left" onclick="scrollCarousel('urbanCarousel', -1)">‹</button>
+                <div class="carousel" id="urbanCarousel">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLLM2XF56J5XM-1vwKTT9fJHaN4x37GHJp&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLHy-6c11OrKjVpgJQRURZo55UxtKkbrhs&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLSGGNsEm8gn1ibwy8vHTIqh5zZ2Boqnk6&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLKuZZmU0uHjhZEh4aSuHMgd_DU7mJdvd1&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PL8iFyyW7kEDFniWOVMCC47RzEnue46pcm&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLv0e2_nWGU-k2I_9NjI3LuZIoZ1X-LkZt&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLa6LulwTySOiokQUI8TX2kMGeG6RUln0V&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLTODbn2kUDhuBZMxREL_8KMXROknx_fs4&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLSGt9rfqZfLdc_oULYaBlmrFLZ3iA51cx&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLTbsakh7Zr1V6b6BqSuQ0IBJmOEElNJ1z&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PL25itr1FSUBHX9fxqml2YwqousEAiMkiy&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <button class="arrow__btn right" onclick="scrollCarousel('urbanCarousel', 1)">›</button>
+            </div>
+        </div>
+
+        <!-- Global Conflict Survival Guides -->
+        <div class="guide-section">
+            <h2>Global Conflict Survival Guides</h2>
+            <div class="carousel-container">
+                <button class="arrow__btn left" onclick="scrollCarousel('globalConflictCarousel', -1)">‹</button>
+                <div class="carousel" id="globalConflictCarousel">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLEED4C1C14C58852D" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLQYKH95qV0z4gKVVMPBIKxXU5R77Nc6XW" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLGyAwa0iPDBSlQ0E3Jhfp8AyL91SPG1hV" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLPXn9uC1JTgBgqj8NptLjedIdCnAADYJY&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLicz6jwdSqwzgmaIKufWWveQF3c2kUMG1&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLQMDad51N8pta_ULs2zQPoOmS0a5ylkwn&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLEj8JkVO8O07FPM4zPdyCUnX2pAhXkK2F&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLEoMJLUv3U1fkOqYFiPQMiSw8AI1gVUfi&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLWt691bVnH5wozolxpmOo6Y22WlZMXoOn&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLFlqzTM2PaxO4iBArqPGkKpfn_U1AV27H&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLttocHh1QBHqJ9JV6NzlQPTN519gwWTxQ&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <button class="arrow__btn right" onclick="scrollCarousel('globalConflictCarousel', 1)">›</button>
+            </div>
+        </div>
+
+        <!-- Disaster Survival Guides -->
+        <div class="guide-section">
+            <h2>Disaster Survival Guides</h2>
+            <div class="carousel-container">
+                <button class="arrow__btn left" onclick="scrollCarousel('disasterCarousel', -1)">‹</button>
+                <div class="carousel" id="disasterCarousel">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLdteC6yMLFp1aavCDuVGvUzUIxLOui0ND&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLGYwlcZCJsZD2Mb8T0CJryuk7OVyi8FKH&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLGkph1NtiNFXSLVzvAH5Kg5Sb83KjOHhJ&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLTjug05B4KNt-OVXS8Ce93vqSufg-sOmY&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLYwNVVORMClYw1GwOhG5lx3XZdckfF3Il&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PL3uuhBHHwn-UCPgBH6Vqsu4tm47ntFf8w&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLEoVHcEPZBwQOjwg2p_rL-TIC_F1s9xyF&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLP1SbsVYy04wixb549V8Ch9LK5ZFd0obI&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLhHaed27lGYrgH6L4eGjPnGx8iTxqo8u_&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLhEX_2u5bWyifS0_oXb82rLqFl9PsEim2&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PL0-A9lVwMDxI_eHjCcKdRT283OkuqATDN&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <button class="arrow__btn right" onclick="scrollCarousel('disasterCarousel', 1)">›</button>
+            </div>
+        </div>
+
+        <!-- Prepping Guides -->
+        <div class="guide-section">
+            <h2>Prepping</h2>
+            <div class="carousel-container">
+                <button class="arrow__btn left" onclick="scrollCarousel('allAroundCarousel', -1)">‹</button>
+                <div class="carousel" id="allAroundCarousel">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PL9gH5kL_rSc87zyp0Ra0fXpRbqLMxcOrg&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLstAKURZ5YBhvKAuymg_Y0sC4w5aKN66w&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLNnywFyeskxA1LZ3sF6vXc6iaWQZPXn-z&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLPFoLYPJFvKDW8vYl94V7KgFzco2kDwnh&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLBpWNGgrbSj2fH4RLmGVkvfp2HM0TTtp1&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLi71XV2e0yQBNh8Ezsb4apyIkCy0RaZGv&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLtNB2WBBVNWnrZA6dV8KJRv4tHDGrn-QA&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLkRuW3pBo2U0WCxRNWm60Yt0ihEQbfpUl&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLjSScLBAtGMh9BAVT7j-qlgTrn5vAihgJ&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLhEX_2u5bWyifS0_oXb82rLqFl9PsEim2&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLsqj8T5TJFcy6vSK2r07qutP9FxmAmi3O&ab" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <button class="arrow__btn right" onclick="scrollCarousel('allAroundCarousel', 1)">›</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function scrollCarousel(carouselId, direction) {
+            const carousel = document.getElementById(carouselId);
+            const videoWidth = 365; // Width of video + margin-right
+            const scrollAmount = direction * videoWidth * 3; // Scroll 3 videos at a time
+            carousel.scrollBy({
+                left: scrollAmount,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+
+</html>

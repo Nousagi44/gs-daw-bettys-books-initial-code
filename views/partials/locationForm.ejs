@@ -1,0 +1,6 @@
+<!-- views/partials/locationForm.ejs -->
+<form action="<%= formAction %>" method="GET">
+    <label for="city">Enter your city:</label>
+    <input type="text" id="city" name="city" value="<%= city || '' %>" required>
+    <button type="submit">Submit</button>
+</form>

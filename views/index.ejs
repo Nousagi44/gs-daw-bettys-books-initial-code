@@ -1,18 +1,178 @@
 <!doctype html>
 <html>
-  <head>
-    <title>Welcome to <%= shopData.shopName %></title>
+
+<head>
+    <title>Welcome to Prepper</title>
     <link rel="stylesheet" type="text/css" href="/main.css" />
-  </head>
-  <body>
-    <h1>Welcome to <%= shopData.shopName %></h1>
-    <p><a href="/about">About <%= shopData.shopName %></a></p>
-    <p><a href="/books/search">Search for books</a></p>
-    <p><a href="/books/addbook">Add a new book</a></p>
-    <p><a href="/books/list">List books</a></p>
-    <p><a href="/books/bargainbooks">Bargain books</a></p>
-    <p><a href="/users/register">Register with us</a></p>
-    <p><a href="/users/login">Login</a></p> <!-- Link to the login page -->
-    <p><a href="/users/list">View Registered Users</a></p>
-  </body>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: url('/images/hero-background.jpg') no-repeat center center/cover;
+            color: #fff;
+            text-align: center;
+            padding: 150px 20px;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+        }
+
+        .hero .button {
+            background-color: orangered;
+            padding: 15px 25px;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            transition: background-color 0.3s;
+        }
+
+        .hero .button:hover {
+            background-color: darkorange;
+        }
+
+        /* Features Section */
+        .features {
+            max-width: 1000px;
+            margin: 50px auto;
+            text-align: center;
+        }
+
+        .features h2 {
+            color: darkcyan;
+            font-size: 2.2em;
+            margin-bottom: 30px;
+        }
+
+        .feature-cards {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: #ffffff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 30px;
+            width: 280px;
+            text-align: center;
+            transition: box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-card h3 {
+            color: darkcyan;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            font-size: 1em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .feature-card a {
+            background-color: orangered;
+            padding: 10px 20px;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+
+        .feature-card a:hover {
+            background-color: darkorange;
+        }
+
+        /* Footer Section */
+        footer {
+            background-color: #333;
+            color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: #f4f4f4;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: orangered;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('./partials/navbar.ejs') %>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>Welcome to Prepper</h1>
+        <p>Be ready for anything. Stay prepared for natural disasters, emergencies, and unexpected events.</p>
+        <a href="/users/register" class="button"><i class="fas fa-user-plus"></i> Get Started Now</a>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features">
+        <h2>How Prepper Can Help You</h2>
+        <div class="feature-cards">
+            <div class="feature-card">
+                <h3><i class="fas fa-info-circle"></i> About Prepper</h3>
+                <p>Learn more about how Prepper can help you stay prepared and ready for any kind of emergency.</p>
+                <a href="/about">Learn More</a>
+            </div>
+            <% if (!user) { %>
+                <div class="feature-card">
+                    <h3><i class="fas fa-sign-in-alt"></i> Login</h3>
+                    <p>Access your Prepper account to start monitoring critical updates and staying informed.</p>
+                    <a href="/users/login">Login</a>
+                </div>
+                <div class="feature-card">
+                    <h3><i class="fas fa-user-plus"></i> Register</h3>
+                    <p>Create your account to gain access to tools, resources, and updates to keep you prepared.</p>
+                    <a href="/users/register">Register</a>
+                </div>
+            <% } else { %>
+                <div class="feature-card">
+                    <h3><i class="fas fa-tachometer-alt"></i> Dashboard</h3>
+                    <p>Access your personalized dashboard for the latest updates on weather, air quality, and more.</p>
+                    <a href="/dashboard">Go to Dashboard</a>
+                </div>
+                <div class="feature-card">
+                    <h3><i class="fas fa-sign-out-alt"></i> Logout</h3>
+                    <p>Sign out from your Prepper account securely when you're done accessing your information.</p>
+                    <a href="/logout">Logout</a>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; <%= new Date().getFullYear() %> Prepper. All rights reserved. | <a href="/about">About</a> | <a href="/contact">Contact Us</a></p>
+    </footer>
+</body>
+
 </html>

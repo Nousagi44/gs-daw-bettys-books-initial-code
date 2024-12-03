@@ -1,0 +1,196 @@
+<!doctype html>
+<html>
+<head>
+    <title>Air Quality - Prepper</title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: darkcyan;
+        }
+
+        .location-form {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        button {
+            background-color: orangered;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: darkorange;
+        }
+
+        .air-quality-card {
+            background-color: #e3f2fd;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .aqi-status {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            color: #fff;
+        }
+
+        .good {
+            background-color: #4caf50;
+        }
+
+        .moderate {
+            background-color: #ffeb3b;
+            color: #333;
+        }
+
+        .unhealthy {
+            background-color: #ff9800;
+        }
+
+        .very-unhealthy {
+            background-color: #f44336;
+        }
+
+        .hazardous {
+            background-color: #9c27b0;
+        }
+
+        .air-quality-details {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .air-quality-detail {
+            text-align: center;
+        }
+
+        .air-quality-detail h3 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(sendPosition);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function sendPosition(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            window.location.href = '/data/airquality?lat=' + latitude + '&lon=' + longitude;
+        }
+    </script>
+</head>
+<body>
+    <%- include('./partials/navbar.ejs') %>
+
+    <div class="container">
+        <h1>Air Quality Information</h1>
+
+        <div class="location-form">
+            <%- include('partials/locationForm', { formAction: '/data/airquality', city }) %>
+            <p>Or <button onclick="getLocation()"><i class="fas fa-map-marker-alt"></i> Use My Current Location</button></p>
+        </div>
+
+        <% if (airQualityData) { %>
+            <div class="air-quality-card">
+                <h2>Air Quality in <%= city %>:</h2>
+                <% 
+                    let aqiClass = '';
+                    let aqiStatus = '';
+                    if (airQualityData.aqi <= 50) {
+                        aqiClass = 'good';
+                        aqiStatus = 'Good';
+                    } else if (airQualityData.aqi <= 100) {
+                        aqiClass = 'moderate';
+                        aqiStatus = 'Moderate';
+                    } else if (airQualityData.aqi <= 150) {
+                        aqiClass = 'unhealthy';
+                        aqiStatus = 'Unhealthy for Sensitive Groups';
+                    } else if (airQualityData.aqi <= 200) {
+                        aqiClass = 'very-unhealthy';
+                        aqiStatus = 'Unhealthy';
+                    } else if (airQualityData.aqi <= 300) {
+                        aqiClass = 'hazardous';
+                        aqiStatus = 'Very Unhealthy';
+                    } else {
+                        aqiClass = 'hazardous';
+                        aqiStatus = 'Hazardous';
+                    }
+                %>
+                <div class="aqi-status <%= aqiClass %>">
+                    AQI: <%= airQualityData.aqi %> - <%= aqiStatus %>
+                </div>
+
+                <div class="air-quality-details">
+                    <div class="air-quality-detail">
+                        <h3>PM2.5</h3>
+                        <p><i class="fas fa-smog"></i> <%= airQualityData.pm2_5 %> µg/m³</p>
+                    </div>
+                    <div class="air-quality-detail">
+                        <h3>PM10</h3>
+                        <p><i class="fas fa-smog"></i> <%= airQualityData.pm10 %> µg/m³</p>
+                    </div>
+                    <div class="air-quality-detail">
+                        <h3>Carbon Monoxide (CO)</h3>
+                        <p><i class="fas fa-burn"></i> <%= airQualityData.co %> µg/m³</p>
+                    </div>
+                    <div class="air-quality-detail">
+                        <h3>Ozone (O<sub>3</sub>)</h3>
+                        <p><i class="fas fa-leaf"></i> <%= airQualityData.o3 %> µg/m³</p>
+                    </div>
+                </div>
+            </div>
+        <% } else if (error) { %>
+            <p class="error"><%= error %></p>
+        <% } %>
+
+        <div class="back-link">
+            <a href="/dashboard"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

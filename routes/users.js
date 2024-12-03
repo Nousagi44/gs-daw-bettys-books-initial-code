@@ -1,129 +1,112 @@
+// routes/users.js
+
 const express = require("express");
 const router = express.Router();
-const bcrypt = require('bcrypt'); // bcrypt is imported for password hashing
-const saltRounds = 10; // Number of salt rounds for bcrypt
-const mysql = require('mysql2');
+const bcrypt = require('bcryptjs');
 
-// Database connection
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'bettys_books_app',   // Your MySQL username
-    password: 'qwertyuiop',     // Your MySQL password
-    database: 'bettys_books'     // Your database name
-});
-
-// Connect to the database
-db.connect(err => {
-    if (err) {
-        console.error('Database connection failed:', err.stack);
-        return;
+// Middleware function to redirect logged-in users to dashboard
+const redirectDashboard = (req, res, next) => {
+    if (req.session.user) {
+        res.redirect('/dashboard');
+    } else {
+        next();
     }
-    console.log('Connected to the database.');
+};
+
+
+
+// Registration page
+router.get('/register', redirectDashboard, (req, res) => {
+    res.render('register');
 });
 
-// Route to display the registration form
-router.get('/register', function (req, res, next) {
-    res.render('register.ejs'); // Render the registration form
-});
+// Handle registration
+router.post('/register', async (req, res) => {
+    const { username, password, email } = req.body;
 
-// Route to handle user registration logic
-router.post('/registered', function (req, res, next) {
-    const plainPassword = req.body.password;
+    try {
+        // Check if username or email already exists
+        const checkQuery = 'SELECT * FROM users WHERE username = ? OR email = ?';
+        db.query(checkQuery, [username, email], async (err, results) => {
+            if (err) throw err;
 
-    // Hash the password before storing it
-    bcrypt.hash(plainPassword, saltRounds, function(err, hashedPassword) {
-        if (err) {
-            console.error('Error hashing password:', err);
-            return res.status(500).send('Server error');
-        }
-
-        // SQL query to insert user into the database
-        const sql = `INSERT INTO users (username, first_name, last_name, email, hashed_password) VALUES (?, ?, ?, ?, ?)`;
-        const values = [
-            req.body.username,   // username
-            req.body.first,      // first_name
-            req.body.last,       // last_name
-            req.body.email,      // email
-            hashedPassword       // hashed_password
-        ];
-
-        // Use db.query to insert data into the MySQL database
-        db.query(sql, values, (err) => {
-            if (err) {
-                console.error('Error saving user to database:', err.stack);
-                return res.status(500).send('Error saving user');
-            }
-
-            // Success message for debugging
-            let response = 'Hello ' + req.body.first + ' ' + req.body.last + ', you are now registered!';
-            response += ' We will send an email to you at ' + req.body.email;
-
-            // Send the response back (for debugging purposes)
-            res.send(response);
-        });
-    });
-});
-
-// Route to display the list of users
-router.get('/list', function (req, res, next) {
-    const sql = 'SELECT username, first_name, last_name, email FROM users'; // SQL query to select user data
-
-    // Use db.query to fetch data from the MySQL database
-    db.query(sql, (err, results) => {
-        if (err) {
-            console.error('Error fetching users:', err); // Log the error
-            return res.status(500).send('Error fetching users');
-        }
-
-        // Log the results for debugging
-        console.log('Fetched users:', results);
-
-        // Render the listusers.ejs view with the fetched users
-        res.render('listusers.ejs', { users: results }); // Pass the users data to the view
-    });
-});
-
-// Route to display the login form
-router.get('/login', function (req, res, next) {
-    res.render('login.ejs'); // Render the login form
-});
-
-// Route to handle login logic
-router.post('/loggedin', function (req, res, next) {
-    const username = req.body.username;
-    const password = req.body.password;
-
-    // SQL query to select the hashed password for the user
-    const sql = 'SELECT hashed_password FROM users WHERE username = ?';
-    db.query(sql, [username], (err, results) => {
-        if (err) {
-            console.error('Error fetching user:', err);
-            return res.status(500).send('Error fetching user');
-        }
-
-        // Check if user exists
-        if (results.length === 0) {
-            return res.send('Login failed: User not found');
-        }
-
-        const hashedPassword = results[0].hashed_password;
-
-        // Compare the password supplied with the hashed password in the database
-        bcrypt.compare(password, hashedPassword, function(err, result) {
-            if (err) {
-                console.error('Error comparing passwords:', err);
-                return res.status(500).send('Server error');
-            }
-            if (result) {
-                // Password matches
-                res.send(`Welcome back, ${username}! You have successfully logged in.`);
+            if (results.length > 0) {
+                res.status(400).json({ error: 'Username or email already exists' });
             } else {
-                // Password does not match
-                res.send('Login failed: Incorrect password');
+                // Hash the password and save the user
+                const hashedPassword = await bcrypt.hash(password, 10);
+                const insertQuery = 'INSERT INTO users (username, password, email) VALUES (?, ?, ?)';
+                db.query(insertQuery, [username, hashedPassword, email], (err, results) => {
+                    if (err) throw err;
+                    res.status(201).json({ message: 'User registered successfully' });
+                });
             }
         });
+    } catch (err) {
+        res.status(500).json({ error: 'An error occurred during registration' });
+    }
+});
+
+// Login page
+router.get('/login', redirectDashboard, (req, res) => {
+    res.render('login');
+});
+
+// Handle login
+router.post('/login', (req, res) => {
+    const { username, password } = req.body;
+
+    let sql = 'SELECT * FROM users WHERE username = ?';
+    db.query(sql, [username], async (err, results) => {
+        if (err) {
+            console.error(err);
+            res.render('login', { error: "An error occurred" });
+        } else if (results.length === 0) {
+            res.render('login', { error: "Invalid username or password" });
+        } else {
+            const user = results[0];
+            const match = await bcrypt.compare(password, user.password);
+            if (match) {
+                // Passwords match
+                req.session.user = {
+                    id: user.id,
+                    username: user.username,
+                    email: user.email
+                };
+                res.redirect('/');
+            } else {
+                // Passwords don't match
+                res.render('login', { error: "Invalid username or password" });
+            }
+        }
     });
 });
 
-// Export the router object so index.js can access it
+router.post('/preferences', (req, res) => {
+    const { userId, defaultCity, alertThresholds, notificationPreferences } = req.body;
+
+    const updateQuery = `
+        INSERT INTO user_preferences (user_id, default_city, alert_thresholds, notification_preferences)
+        VALUES (?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE 
+            default_city = VALUES(default_city), 
+            alert_thresholds = VALUES(alert_thresholds),
+            notification_preferences = VALUES(notification_preferences)
+    `;
+
+    db.query(
+        updateQuery,
+        [userId, defaultCity, JSON.stringify(alertThresholds), JSON.stringify(notificationPreferences)],
+        (err, results) => {
+            if (err) {
+                console.error('Error updating preferences:', err);
+                res.status(500).json({ error: 'Failed to update preferences' });
+            } else {
+                res.json({ message: 'Preferences updated successfully' });
+            }
+        }
+    );
+});
+
+
 module.exports = router;

@@ -1,0 +1,184 @@
+<!doctype html>
+<html>
+<head>
+    <title>Weather Information - Prepper</title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: darkcyan;
+        }
+
+        .location-form {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        button, .location-form button {
+            background-color: orangered;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        button:hover, .location-form button:hover {
+            background-color: darkorange;
+        }
+
+        .weather-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #e0f7fa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .weather-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .weather-details {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .weather-detail {
+            text-align: center;
+        }
+
+        .weather-detail h3 {
+            margin: 10px 0;
+            font-size: 1.2em;
+        }
+
+        .weather-detail p {
+            font-size: 1em;
+            margin: 5px 0;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(sendPosition);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function sendPosition(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            window.location.href = '/data/weather?lat=' + latitude + '&lon=' + longitude;
+        }
+    </script>
+</head>
+<body>
+    <%- include('./partials/navbar.ejs') %>
+
+    <div class="container">
+        <h1>Weather Information</h1>
+
+        <div class="location-form">
+            <%- include('partials/locationForm', { formAction: '/data/weather', city }) %>
+            <p>Or <button onclick="getLocation()"><i class="fas fa-map-marker-alt"></i> Use My Current Location</button></p>
+        </div>
+
+        <% if (weatherData) { %>
+            <div class="weather-card">
+                <% 
+                    let iconClass = '';
+                    switch (weatherData.weather.code) {
+                        case 800:
+                            iconClass = 'fa-sun';
+                            break;
+                        case 801:
+                            iconClass = 'fa-cloud-sun';
+                            break;
+                        case 802:
+                        case 803:
+                        case 804:
+                            iconClass = 'fa-cloud';
+                            break;
+                        default:
+                            if (weatherData.weather.code >= 200 && weatherData.weather.code < 300) {
+                                iconClass = 'fa-bolt';
+                            } else if (weatherData.weather.code >= 300 && weatherData.weather.code < 600) {
+                                iconClass = 'fa-cloud-showers-heavy';
+                            } else if (weatherData.weather.code >= 600 && weatherData.weather.code < 700) {
+                                iconClass = 'fa-snowflake';
+                            } else if (weatherData.weather.code >= 700 && weatherData.weather.code < 800) {
+                                iconClass = 'fa-smog';
+                            } else {
+                                iconClass = 'fa-cloud';
+                            }
+                            break;
+                    }
+                %>
+                <i class="fas <%= iconClass %> weather-icon"></i>
+                <h2>Current Weather for <%= city %>:</h2>
+                <h3><%= weatherData.weather.description %></h3>
+                <h3>Temperature: <%= weatherData.temp %> °C</h3>
+
+                <div class="weather-details">
+                    <div class="weather-detail">
+                        <h3>Humidity</h3>
+                        <p><i class="fas fa-tint"></i> <%= weatherData.rh %>%</p>
+                    </div>
+                    <div class="weather-detail">
+                        <h3>UV Index</h3>
+                        <p><i class="fas fa-sun"></i> <%= weatherData.uv %></p>
+                    </div>
+                    <div class="weather-detail">
+                        <h3>Wind Speed</h3>
+                        <p><i class="fas fa-wind"></i> <%= weatherData.wind_spd.toFixed(1) %> m/s</p>
+                    </div>
+                    <div class="weather-detail">
+                        <h3>Pressure</h3>
+                        <p><i class="fas fa-tachometer-alt"></i> <%= weatherData.pres %> mb</p>
+                    </div>
+                </div>
+            </div>
+        <% } else if (error) { %>
+            <p class="error"><%= error %></p>
+        <% } %>
+
+
+    </div>
+</body>
+</html>

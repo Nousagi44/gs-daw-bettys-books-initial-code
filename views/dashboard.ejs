@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+    <title>Dashboard - Prepper</title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+    
+        .container {
+            width: 90%;
+            margin: 100px auto 20px auto; /* Add margin-top to create space for the navbar */
+            text-align: center;
+        }
+    
+        .general-info, .survival-guides {
+            margin-top: 30px;
+        }
+    
+        .general-info h2, .survival-guides h2 {
+            color: darkcyan;
+            font-size: 1.5em;
+        }
+    
+        .general-info p, .survival-guides p {
+            font-size: 1em;
+            text-align: justify;
+            margin-bottom: 20px;
+        }
+    
+        .button-links a {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 15px;
+            background-color: orangered;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    
+        .button-links a:hover {
+            background-color: darkorange;
+        }
+    </style>
+    
+</head>
+<body>
+    <%- include('./partials/navbar.ejs') %>
+
+    <div class="container">
+        
+        <div class="general-info">
+          
+            <h2>Welcome to Prepper's Dashboard</h2>
+            <p>What is prepping?
+                Prepping and emergency preparedness are equipment and preparation methods aimed at dealing with and surviving various types of emergencies and crises that may occur, such as natural disasters, power outages and societal crises.</p> 
+                <p>A prepper is a person who actively prepares by acquiring skills, knowledge and resources that can be critical to survival and safety in the event of a crisis.</p> 
+                <p>By focusing on creating a plan to meet basic needs such as food, water, shelter and communication during times of chaos and uncertainty, preppers strive to minimize the risk and consequences of various emergencies.</p>
+                <p>With prepper's help you can stay prepared for natural disasters, severe weather, global conflicts, and much more. Here you can track critical survival guides, set alerts, and browse detailed information to keep you ready in every situation.</p>
+            
+        </div>
+
+        <!-- Urban Survival Information -->
+        <div class="survival-guides">
+            <h2>Urban Survival Tips</h2>
+            <p>Urban survival requires a mix of resourcefulness, preparation, and adaptability. It's all about having the right tools, the right plans, and understanding your environment. Here are some key topics covered on this platform:</p>
+            
+            <p>How to create an emergency kit for urban areas.</p>
+            <p>Evacuation plans when living in high-rise buildings.</p>
+            <p>Basic first aid that every urban dweller should know.</p>
+            <p>Situational awareness to detect potential conflicts or dangers.</p>
+            
+            <div class="button-links">
+                <a href="/data/youtube-guides">Watch YouTube Guides</a>
+                <a href="/data/weather">Weather Updates</a>
+                <a href="/data/earthquakes">Recent Earthquakes</a>
+                <a href="/data/news">Global Conflict News</a>
+                <a href="/data/airquality">Air Quality Information</a>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
